@@ -10,6 +10,6 @@ export function useKeeper() {
   const update = (collection, id, patch) => { const item = state[collection].find((entry) => entry.id === id); if (item) Object.assign(item, patch); persist() }
   const remove = (collection, id) => { state[collection] = state[collection].filter((entry) => entry.id !== id); persist() }
   const reset = () => { Object.assign(state, structuredClone(seed)); persist() }
-  const metrics = computed(() => config.metrics.map((metric) => ({ ...metric, value: metric.value ? metric.value(state) : state[metric.collection]?.length || 0 })))
+  const metrics = computed(() => config.metrics.map((metric) => ({ ...metric, value: metric.value ? metric.value(state) : state[metric.collection]?.length || 0, hint: metric.hint ? metric.hint(state) : '' })))
   return { state, add, update, remove, reset, persist, metrics }
 }
